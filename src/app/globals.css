@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+@theme {
+  /* Editorial print palette: warm paper, warm near-black ink, one accent. */
+  --color-paper: #f4f1ea;
+  --color-paper-shade: #eae6dd;
+  --color-ink: #16130f;
+  --color-ink-muted: #6b655c;
+  --color-rule: rgba(22, 19, 15, 0.14);
+  --color-rule-strong: rgba(22, 19, 15, 0.32);
+  --color-accent: #c1281e;
+
+  /* Status hues, darkened until each one clears 4.5:1 on paper so the label
+     itself can carry the colour instead of needing a neutral fallback. */
+  --color-live: #1f6f45;
+  --color-progress: #8a5a0b;
+  --color-planned: #6b655c;
+
+  --font-sans: var(--font-archivo);
+  --font-mono: var(--font-jetbrains-mono);
+
+  /* Steep scale; the floor stays readable on ~320px without clipping the name. */
+  --text-display: clamp(2.75rem, 12.5vw, 11rem);
+  --text-display--line-height: 0.88;
+  --text-display--letter-spacing: -0.045em;
+
+  --text-hed: clamp(1.75rem, 5.5vw, 3.5rem);
+  --text-hed--line-height: 0.98;
+  --text-hed--letter-spacing: -0.035em;
+
+  --text-stat: clamp(2.25rem, 7vw, 4.75rem);
+  --text-stat--line-height: 0.82;
+  --text-stat--letter-spacing: -0.04em;
+
+  --text-lede: clamp(1.0625rem, 1.15vw, 1.3125rem);
+  --text-lede--line-height: 1.55;
+
+  --text-meta: 0.6875rem;
+  --text-meta--line-height: 1.45;
+  --text-meta--letter-spacing: 0.02em;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-rule);
+  }
+
+  html {
+    /* Reveal offsets still start a few pixels outside the container before they
+       animate in. `clip` keeps the vertical scroller intact, so scroll-padding
+       and smooth anchor jumps below still apply. */
+    overflow-x: clip;
+    scroll-behavior: smooth;
+    /* Masthead + notch; keeps in-page anchors clear of the fixed header. */
+    scroll-padding-top: calc(5.5rem + env(safe-area-inset-top, 0px));
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-paper);
+    border-left: 1px solid var(--color-rule);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink);
+    border: 4px solid var(--color-paper);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent);
+  }
+}
+
+/* The page column. Unchanged breakpoints: 1440 stays the approved baseline and
+   the measure only widens past it. */
+@utility section-shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: max(1.25rem, env(safe-area-inset-left, 0px))
+    max(1.25rem, env(safe-area-inset-right, 0px));
+
+  @media (width >= 40rem) {
+    padding-inline: max(2rem, env(safe-area-inset-left, 0px))
+      max(2rem, env(safe-area-inset-right, 0px));
+  }
+
+  @media (width >= 64rem) {
+    padding-inline: max(3rem, env(safe-area-inset-left, 0px))
+      max(3rem, env(safe-area-inset-right, 0px));
+  }
+
+  @media (width >= 96rem) {
+    max-width: 88rem;
+    padding-inline: max(4rem, env(safe-area-inset-left, 0px))
+      max(4rem, env(safe-area-inset-right, 0px));
+  }
+
+  @media (width >= 120rem) {
+    max-width: 96rem;
+  }
+
+  @media (width >= 160rem) {
+    max-width: 104rem;
+  }
+}
+
+/* The 12 columns everything is placed against. Content is positioned with the
+   stock `col-span-*` / `col-start-*` utilities on top of this. */
+@utility grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 1.25rem;
+
+  @media (width >= 40rem) {
+    column-gap: 1.5rem;
+  }
+
+  @media (width >= 64rem) {
+    column-gap: 2rem;
+  }
+}
+
+/* Vertical rhythm shared by every content section. Kept here rather than as
+   `py-*` utilities because the short-viewport step below needs a height query. */
+@utility section-rhythm {
+  padding-block: 4rem;
+
+  @media (width >= 40rem) {
+    padding-block: 7rem;
+  }
+
+  @media (width >= 96rem) {
+    padding-block: 9rem;
+  }
+
+  /* 1366x768 and 1280x800 are still common. On a screen that short the default
+     rhythm makes the page feel endless, so tighten it. Declared last so it wins
+     over the width steps above at equal specificity. */
+  @media (height <= 50rem) {
+    padding-block: 3.25rem;
+  }
+
+  @media (height <= 50rem) and (width >= 40rem) {
+    padding-block: 4.5rem;
+  }
+}
+
+/* Horizontal chip/tab rails on small screens: swipe instead of wrapping. */
+@utility scroll-rail {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Running text never spans a column wider than it can be read in. */
+@utility measure {
+  max-width: 62ch;
+}
+
+@utility measure-tight {
+  max-width: 46ch;
+}
+
+/* Numerals in tabular figures, so stacked years and stats align on the rule. */
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hero atmosphere: mist bands, vignette, and print grain. Scoped class names
+   so the rest of the page stays clean. Honours prefers-reduced-motion above. */
+@keyframes hero-fog-drift {
+  0%,
+  100% {
+    transform: translate3d(-3%, 0, 0) scale(1.05);
+  }
+  50% {
+    transform: translate3d(4%, -1.5%, 0) scale(1.08);
+  }
+}
+
+@keyframes hero-grain-shift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-1.5%, 1%);
+  }
+  50% {
+    transform: translate(1%, -1.5%);
+  }
+  75% {
+    transform: translate(-0.5%, -1%);
+  }
+}
+
+.hero-fog {
+  background:
+    radial-gradient(ellipse 70% 45% at 20% 35%, rgba(244, 241, 234, 0.55), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 78% 55%, rgba(234, 230, 221, 0.4), transparent 65%),
+    radial-gradient(ellipse 50% 30% at 50% 80%, rgba(244, 241, 234, 0.35), transparent 70%);
+  animation: hero-fog-drift 22s ease-in-out infinite;
+  opacity: 0.55;
+}
+
+.hero-fog--late {
+  animation-duration: 31s;
+  animation-direction: reverse;
+  opacity: 0.35;
+  mix-blend-mode: soft-light;
+}
+
+.hero-vignette {
+  background: radial-gradient(
+    ellipse 75% 70% at 50% 40%,
+    transparent 40%,
+    rgba(22, 19, 15, 0.1) 100%
+  );
+}
+
+.hero-grain {
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  animation: hero-grain-shift 0.55s steps(2) infinite;
+}
+
+/* Mid-page locked parallax: bitmap pinned to the viewport, clipped by the
+   section box. Touch and reduced-motion keep attachment: scroll (iOS + a11y). */
+.parallax-locked {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .parallax-locked {
+    background-attachment: fixed;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parallax-locked {
+    background-attachment: scroll;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
