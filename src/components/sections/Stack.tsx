@@ -160,7 +160,7 @@ function SkillGrid({
             </span>
             <span className="min-w-0">
               <span className="block text-sm font-medium tracking-[-0.01em]">
-                {skill.name}
+                {skill.label ? pick(skill.label) : skill.name}
               </span>
               <span className="mt-0.5 block font-mono text-meta leading-snug text-ink-muted text-pretty">
                 {pick(skill.note)}

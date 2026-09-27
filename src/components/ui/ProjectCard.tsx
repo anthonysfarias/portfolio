@@ -16,6 +16,7 @@ type CardLink = { href: string; Icon: IconType; iconClassName: string; label: st
 
 export function ProjectCard({ project }: { project: Project }) {
   const { dict, pick } = useI18n();
+  const title = project.localizedTitle ? pick(project.localizedTitle) : project.title;
   const hasFooter = Boolean(project.demoUrl || project.codeUrl || project.internal);
 
   const links: CardLink[] = [];
@@ -42,7 +43,7 @@ export function ProjectCard({ project }: { project: Project }) {
         {project.image ? (
           <Image
             src={project.image}
-            alt={project.title}
+            alt={title}
             fill
             // A `sizes` hint tuned to the card would make the optimiser serve a
             // variant narrower than the small square source and upscale it.
@@ -60,7 +61,7 @@ export function ProjectCard({ project }: { project: Project }) {
         ) : (
           <span aria-hidden className="absolute inset-0 flex items-center justify-center">
             <span className="font-mono text-5xl font-semibold tracking-tight text-ink-muted transition-colors duration-300 group-hover:text-ink">
-              {project.title.slice(0, 2).toUpperCase()}
+              {title.slice(0, 2).toUpperCase()}
             </span>
           </span>
         )}
@@ -77,10 +78,10 @@ export function ProjectCard({ project }: { project: Project }) {
               href={project.demoUrl}
               className="transition-colors duration-200 hover:text-accent"
             >
-              {project.title}
+              {title}
             </SafeLink>
           ) : (
-            project.title
+            title
           )}
         </h3>
         <p className="mt-1.5 font-mono text-meta text-ink uppercase">{pick(project.context)}</p>

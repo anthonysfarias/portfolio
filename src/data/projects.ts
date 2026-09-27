@@ -5,6 +5,8 @@ export type ProjectStatus = "live" | "progress" | "done" | "beta" | "soon" | "pa
 export type Project = {
   id: string;
   title: string;
+  /** Overrides `title` when the name itself changes between languages. */
+  localizedTitle?: Localized;
   context: Localized;
   description: Localized;
   /** Path under /public, or null to render the monogram fallback. */
@@ -42,6 +44,7 @@ export const projects: Project[] = [
   {
     id: "secop-colombia",
     title: "SECOP Colômbia",
+    localizedTitle: { pt: "SECOP Colômbia", en: "SECOP Colombia" },
     context: { pt: "e-Stratégia Pública", en: "e-Stratégia Pública" },
     description: {
       pt: "Nova plataforma de contratação pública eletrônica da Colômbia. Integra processos de aquisição de entidades estatais com foco em transparência, segurança e eficiência. O avanço ficou parado após a minha saída.",
@@ -102,6 +105,7 @@ export const projects: Project[] = [
   {
     id: "democratizacao",
     title: "Democratização",
+    localizedTitle: { pt: "Democratização", en: "Democratization" },
     context: { pt: "e-Stratégia Pública", en: "e-Stratégia Pública" },
     description: {
       pt: "Sistema que iniciei para incluir quem produz no agro e vende commodities ao Estado. Foco em democratizar a compra pública e alcançar cerca de metade desse público na América Latina, com módulos de registro, caracterização, análise geoespacial e inclusão.",
@@ -115,7 +119,7 @@ export const projects: Project[] = [
   {
     id: "nanismo-brasil",
     title: "Nanismo Brasil",
-    context: { pt: "INN · Instituto Nacional do Nanismo", en: "INN · Instituto Nacional do Nanismo" },
+    context: { pt: "INN · Instituto Nacional do Nanismo", en: "INN · National Dwarfism Institute" },
     description: {
       pt: "ONG de apoio a pessoas com nanismo e suas famílias. Atuei em suporte técnico, banco de dados e manutenção de sistemas internos. Na página institucional, apareço na foto com meu irmão nos ombros.",
       en: "NGO supporting people with dwarfism and their families. I handled technical support, databases and upkeep of internal systems. On the institutional page, I am in the photo with my brother on my shoulders.",

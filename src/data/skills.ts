@@ -2,7 +2,10 @@ import type { Localized } from "@/i18n/config";
 import type { IconName } from "@/lib/icons";
 
 export type Skill = {
+  /** Stable key; shown as-is when there is no `label`. */
   name: string;
+  /** Display name for skills that are not brand names. */
+  label?: Localized;
   icon: IconName;
   note: Localized;
 };
@@ -190,6 +193,7 @@ export const skillGroups: SkillGroup[] = [
       },
       {
         name: "Microsserviços",
+        label: { pt: "Microsserviços", en: "Microservices" },
         icon: "FaCubesStacked",
         note: { pt: "Serviços desacoplados", en: "Decoupled services" },
       },
@@ -205,6 +209,7 @@ export const skillGroups: SkillGroup[] = [
       },
       {
         name: "Testes",
+        label: { pt: "Testes", en: "Testing" },
         icon: "FaVialCircleCheck",
         note: { pt: "Pytest e Vitest", en: "Pytest and Vitest" },
       },
@@ -237,46 +242,55 @@ export const skillGroups: SkillGroup[] = [
       },
       {
         name: "Liderança técnica",
+        label: { pt: "Liderança técnica", en: "Technical leadership" },
         icon: "FaUsersGear",
         note: { pt: "Direção sem perder a mão no código", en: "Direction without leaving the keyboard" },
       },
       {
         name: "Inteligência",
+        label: { pt: "Inteligência", en: "Intelligence" },
         icon: "FaBrain",
         note: { pt: "Julgamento rápido e preciso", en: "Fast, precise judgement" },
       },
       {
         name: "Proatividade",
+        label: { pt: "Proatividade", en: "Proactivity" },
         icon: "FaBolt",
         note: { pt: "Antecipo e ajo sem esperar ordem", en: "I anticipate and act without being told" },
       },
       {
         name: "Clareza",
+        label: { pt: "Clareza", en: "Clarity" },
         icon: "FaCompress",
         note: { pt: "Simplifico o complexo", en: "I make the complex simple" },
       },
       {
         name: "Comunicação",
+        label: { pt: "Comunicação", en: "Communication" },
         icon: "FaComments",
         note: { pt: "Falo a língua do negócio e da engenharia", en: "I speak business and engineering" },
       },
       {
         name: "Senso de produto",
+        label: { pt: "Senso de produto", en: "Product sense" },
         icon: "FaCompass",
         note: { pt: "Código a serviço do resultado", en: "Code in service of the outcome" },
       },
       {
         name: "Tomada de decisão",
+        label: { pt: "Tomada de decisão", en: "Decision making" },
         icon: "FaBullseye",
         note: { pt: "Trade-offs explícitos e rápidos", en: "Explicit, fast trade-offs" },
       },
       {
         name: "Resolução de problemas",
+        label: { pt: "Resolução de problemas", en: "Problem solving" },
         icon: "FaLightbulb",
         note: { pt: "Diagnóstico sob pressão", en: "Diagnosis under pressure" },
       },
       {
         name: "Mentoria",
+        label: { pt: "Mentoria", en: "Mentoring" },
         icon: "FaChalkboardUser",
         note: { pt: "Multiplico o nível do time", en: "I multiply the team's level" },
       },
@@ -287,36 +301,43 @@ export const skillGroups: SkillGroup[] = [
       },
       {
         name: "Empatia",
+        label: { pt: "Empatia", en: "Empathy" },
         icon: "FaHeart",
         note: { pt: "Entendo quem usa e quem constrói", en: "I understand who uses and who builds" },
       },
       {
         name: "Curiosidade",
+        label: { pt: "Curiosidade", en: "Curiosity" },
         icon: "FaBookOpen",
         note: { pt: "Aprendo o que a vaga ainda não pediu", en: "I learn what the job has not asked yet" },
       },
       {
         name: "Resiliência",
+        label: { pt: "Resiliência", en: "Resilience" },
         icon: "FaShieldHalved",
         note: { pt: "Calma quando o sistema queima", en: "Calm when production is on fire" },
       },
       {
         name: "Responsabilidade",
+        label: { pt: "Responsabilidade", en: "Accountability" },
         icon: "FaUserCheck",
         note: { pt: "Erro meu, correção minha", en: "My mistake, my fix" },
       },
       {
         name: "Adaptabilidade",
+        label: { pt: "Adaptabilidade", en: "Adaptability" },
         icon: "FaArrowsRotate",
         note: { pt: "Mudo de abordagem sem drama", en: "I change approach without drama" },
       },
       {
         name: "Integridade",
+        label: { pt: "Integridade", en: "Integrity" },
         icon: "FaScaleBalanced",
         note: { pt: "Digo o real, mesmo quando custa", en: "I tell the truth even when it costs" },
       },
       {
         name: "Colaboração",
+        label: { pt: "Colaboração", en: "Collaboration" },
         icon: "FaHandshake",
         note: { pt: "Ganho junto com o time", en: "I win with the team" },
       },
